@@ -1,6 +1,7 @@
 #include "application.h"
 #include "SFML/System/Clock.hpp"
 #include "tank.h"
+#include "wall.h"
 
 Application::Application() : m_ObjectsCount(0)
 {
@@ -33,14 +34,31 @@ void Application::Execute()
 
 bool Application::GenerateLevel()
 {
-	m_ObjectsCount = 2;
+	m_ObjectsCount = 6;
 	m_Objects = new Object*[m_ObjectsCount];
 	Tank *tank = new Tank();
 	m_Objects[0] = tank;
+	m_Objects[0]->SetPos(sf::Vector2f(100, 100));
 	m_Player = new Player(tank);
 
 	m_Objects[1] = new Tank();
 	m_Objects[1]->SetPos(sf::Vector2f(600, 600));
+
+	m_Objects[2] = new Wall();
+	m_Objects[2]->SetPos(sf::Vector2f(0, m_Height / 2));
+	m_Objects[2]->SetSize(sf::Vector2f(0, m_Height));
+
+	m_Objects[3] = new Wall();
+	m_Objects[3]->SetPos(sf::Vector2f(m_Width / 2, m_Height));
+	m_Objects[3]->SetSize(sf::Vector2f(m_Width, 0));
+
+	m_Objects[4] = new Wall();
+	m_Objects[4]->SetPos(sf::Vector2f(m_Width, m_Height / 2));
+	m_Objects[4]->SetSize(sf::Vector2f(0, m_Height));
+
+	m_Objects[5] = new Wall();
+	m_Objects[5]->SetPos(sf::Vector2f(m_Width / 2, 0));
+	m_Objects[5]->SetSize(sf::Vector2f(m_Width, 0));
 
 	return true;
 }

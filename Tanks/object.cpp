@@ -25,6 +25,7 @@ void Object::SetSize(sf::Vector2f in_Size)
 {
 	m_Size = in_Size;
 	m_Sprite.setScale(in_Size.x / m_Sprite.getTextureRect().width, in_Size.y / m_Sprite.getTextureRect().height);
+	m_Sprite.setOrigin(m_Sprite.getTextureRect().width / 2, m_Sprite.getTextureRect().height / 2);
 }
 
 sf::Vector2f Object::GetSize()
@@ -99,4 +100,5 @@ void Object::SetTexture(const char *in_FileName)
 {
 	m_Texture.loadFromFile(in_FileName);
 	m_Sprite = sf::Sprite(m_Texture);
+	m_Sprite.setOrigin(m_Sprite.getTextureRect().width / 2, m_Sprite.getTextureRect().height / 2);
 }

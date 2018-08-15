@@ -1,5 +1,7 @@
 #pragma once
-class Wall
+#include "object.h"
+
+class Wall : public Object
 {
 public:
 	Wall();
