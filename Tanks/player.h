@@ -1,6 +1,8 @@
 #pragma once
 #include "tank.h"
+#include "application.h"
 
+class Application;
 class Player
 {
 public:
@@ -8,10 +10,9 @@ public:
 	~Player();
 
 public:
-	void OnKeyPressed(const sf::Event::KeyEvent &key);
+	void OnKeyPressed(Application *in_Application, const sf::Event::KeyEvent &key);
 	void OnKeyReleased(const sf::Event::KeyEvent &key);
 
 private:
 	Tank *m_Tank;
 };
-

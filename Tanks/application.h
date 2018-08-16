@@ -3,6 +3,8 @@
 #include "object.h"
 #include "SFML/Graphics.hpp"
 
+class Player;
+
 class Application
 {
 public:
@@ -15,6 +17,9 @@ public:
 	void Update(sf::Time in_Time);
 	void Draw();
 	void HandleEvents();
+
+	void AddObject(Object *in_Object);
+	void RemoveObject(Object *in_Object);
 
 private:
 	Object *getNearestIntersectX(Object *in_Object, sf::Time in_Time);

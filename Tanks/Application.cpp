@@ -2,6 +2,7 @@
 #include "SFML/System/Clock.hpp"
 #include "tank.h"
 #include "wall.h"
+#include "missile.h"
 
 Application::Application() : m_ObjectsCount(0)
 {
@@ -34,37 +35,50 @@ void Application::Execute()
 
 bool Application::GenerateLevel()
 {
-	m_ObjectsCount = 6;
-	m_Objects = new Object*[m_ObjectsCount];
 	Tank *tank = new Tank();
-	m_Objects[0] = tank;
-	m_Objects[0]->SetPos(sf::Vector2f(100, 100));
+	tank->SetPos(sf::Vector2f(100, 100));
+	AddObject(tank);
 	m_Player = new Player(tank);
 
-	m_Objects[1] = new Tank();
-	m_Objects[1]->SetPos(sf::Vector2f(600, 600));
+	Tank *enemy = new Tank();
+	enemy->SetPos(sf::Vector2f(600, 600));
+	AddObject(enemy);
 
-	m_Objects[2] = new Wall();
-	m_Objects[2]->SetPos(sf::Vector2f(0, m_Height / 2));
-	m_Objects[2]->SetSize(sf::Vector2f(0, m_Height));
+	Wall *wall1 = new Wall();
+	wall1->SetPos(sf::Vector2f(0, m_Height / 2));
+	wall1->SetSize(sf::Vector2f(0, m_Height));
+	wall1->SetHealth(99999);
+	AddObject(wall1);
 
-	m_Objects[3] = new Wall();
-	m_Objects[3]->SetPos(sf::Vector2f(m_Width / 2, m_Height));
-	m_Objects[3]->SetSize(sf::Vector2f(m_Width, 0));
+	Wall *wall2 = new Wall();
+	wall2->SetPos(sf::Vector2f(m_Width / 2, m_Height));
+	wall2->SetSize(sf::Vector2f(m_Width, 0));
+	wall2->SetHealth(99999);
+	AddObject(wall2);
 
-	m_Objects[4] = new Wall();
-	m_Objects[4]->SetPos(sf::Vector2f(m_Width, m_Height / 2));
-	m_Objects[4]->SetSize(sf::Vector2f(0, m_Height));
+	Wall *wall3 = new Wall();
+	wall3->SetPos(sf::Vector2f(m_Width, m_Height / 2));
+	wall3->SetSize(sf::Vector2f(0, m_Height));
+	wall3->SetHealth(99999);
+	AddObject(wall3);
 
-	m_Objects[5] = new Wall();
-	m_Objects[5]->SetPos(sf::Vector2f(m_Width / 2, 0));
-	m_Objects[5]->SetSize(sf::Vector2f(m_Width, 0));
+	Wall *wall4 = new Wall();
+	wall4->SetPos(sf::Vector2f(m_Width / 2, 0));
+	wall4->SetSize(sf::Vector2f(m_Width, 0));
+	wall4->SetHealth(99999);
+	AddObject(wall4);
 
 	return true;
 }
 
 void Application::Update(sf::Time in_Time)
 {
+	// Удаление объектов (Кол-во жизней)
+	for (int i = 0; i < m_ObjectsCount; ++i)
+		if (m_Objects[i]->GetHealth() == 0)
+			RemoveObject(m_Objects[i--]);
+
+	// Перемещение объектов и уведомление о столкновениях
 	for (int i = 0; i < m_ObjectsCount; ++i)
 	{
 		sf::Vector2f velocity = m_Objects[i]->GetVelocity();
@@ -94,6 +108,13 @@ void Application::Update(sf::Time in_Time)
 				pos.y = (nearestY->GetPos().y - nearestY->GetSize().y / 2) - m_Objects[i]->GetSize().y / 2;
 		}
 
+		// Вызов события столкновения
+		if (nearestX != NULL)
+			m_Objects[i]->OnIntersect(nearestX);
+
+		if (nearestY != NULL)
+			m_Objects[i]->OnIntersect(nearestY);
+
 		m_Objects[i]->SetPos(pos);
 	}
 }
@@ -117,7 +138,7 @@ void Application::HandleEvents()
 			m_Window->close();
 
 		if (event.type == sf::Event::KeyPressed)
-			m_Player->OnKeyPressed(event.key);
+			m_Player->OnKeyPressed(this, event.key);
 		else if (event.type == sf::Event::KeyReleased)
 			m_Player->OnKeyReleased(event.key);
 	}
@@ -151,4 +172,33 @@ Object *Application::getNearestIntersectY(Object *in_Object, sf::Time in_Time)
 	}
 
 	return nearest;
+}
+
+void Application::AddObject(Object *in_Object)
+{
+	Object **tempObjects = m_Objects;
+
+	m_ObjectsCount += 1;
+	m_Objects = new Object*[m_ObjectsCount];
+
+	for (int i = 0; i < m_ObjectsCount - 1; ++i)
+		m_Objects[i] = tempObjects[i];
+	delete[] tempObjects;
+
+	m_Objects[m_ObjectsCount - 1] = in_Object;
+}
+
+void Application::RemoveObject(Object *in_Object)
+{
+	int objectNum = -1;
+	for (int i = 0; i < m_ObjectsCount; ++i)
+		if (in_Object == m_Objects[i])
+			objectNum = i;
+
+	if (objectNum == -1)
+		return;
+	
+	delete m_Objects[objectNum];
+	m_Objects[objectNum] = m_Objects[m_ObjectsCount - 1];
+	m_ObjectsCount -= 1;
 }

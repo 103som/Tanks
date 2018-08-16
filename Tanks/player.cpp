@@ -9,7 +9,7 @@ Player::~Player()
 {
 }
 
-void Player::OnKeyPressed(const sf::Event::KeyEvent &key)
+void Player::OnKeyPressed(Application *in_Application, const sf::Event::KeyEvent &key)
 {
 	switch (key.code)
 	{
@@ -27,6 +27,10 @@ void Player::OnKeyPressed(const sf::Event::KeyEvent &key)
 
 		case sf::Keyboard::Up:
 			m_Tank->SetVelocity(sf::Vector2f(0, -1));
+			break;
+
+		case sf::Keyboard::Space:
+			in_Application->AddObject(m_Tank->Fire());
 			break;
 	}
 }

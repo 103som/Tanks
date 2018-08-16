@@ -2,7 +2,7 @@
 
 
 
-Object::Object()
+Object::Object() : m_Direction(sf::Vector2f(1, 0)), m_Health(1)
 {
 }
 
@@ -14,11 +14,25 @@ Object::~Object()
 void Object::SetVelocity(sf::Vector2f in_Velocity)
 {
 	m_Velocity = in_Velocity;
+	SetDirection(m_Velocity);
 }
 
 sf::Vector2f Object::GetVelocity()
 {
 	return m_Velocity;
+}
+
+void Object::SetDirection(sf::Vector2f in_Direction)
+{
+	if (in_Direction.x == 0 && in_Direction.y == 0)
+		return;
+
+	m_Direction = in_Direction;
+}
+
+sf::Vector2f Object::GetDirection()
+{
+	return m_Direction;
 }
 
 void Object::SetSize(sf::Vector2f in_Size)
@@ -101,4 +115,14 @@ void Object::SetTexture(const char *in_FileName)
 	m_Texture.loadFromFile(in_FileName);
 	m_Sprite = sf::Sprite(m_Texture);
 	m_Sprite.setOrigin(m_Sprite.getTextureRect().width / 2, m_Sprite.getTextureRect().height / 2);
+}
+
+void Object::SetHealth(int in_Health)
+{
+	m_Health = in_Health;
+}
+
+int Object::GetHealth()
+{
+	return m_Health;
 }
