@@ -8,7 +8,7 @@ Application::Application() : m_ObjectsCount(0)
 {
 	m_Width = 1920;
 	m_Height = 1080;
-	m_Window = new sf::RenderWindow(sf::VideoMode(m_Width, m_Height), "U will lose");
+	m_Window = new sf::RenderWindow(sf::VideoMode(m_Width, m_Height), "U will lose", sf::Style::Fullscreen);
 	GenerateLevel();
 }
 
@@ -28,21 +28,27 @@ void Application::Execute()
 		Update(currentTime - lastTime);
 		Draw();
 		HandleEvents();
-
+		m_ArtificialIntelligence->Update(this);
 		lastTime = currentTime;
 	}
 }
 
 bool Application::GenerateLevel()
 {
-	Tank *tank = new Tank();
-	tank->SetPos(sf::Vector2f(100, 100));
+	m_ArtificialIntelligence = new ArtificialIntelligence();
+
+	Tank *tank = new Tank(GROUP_PLAYER);
+	tank->SetPos(sf::Vector2f(m_Width / 2, m_Height / 2));
 	AddObject(tank);
 	m_Player = new Player(tank);
 
 	Tank *enemy = new Tank();
-	enemy->SetPos(sf::Vector2f(600, 600));
+	enemy->SetPos(sf::Vector2f(m_Width - 50, m_Height - 50));
 	AddObject(enemy);
+
+	Tank *enemy2 = new Tank();
+	enemy2->SetPos(sf::Vector2f(50, 50));
+	AddObject(enemy2);
 
 	Wall *wall1 = new Wall();
 	wall1->SetPos(sf::Vector2f(0, m_Height / 2));
@@ -95,6 +101,8 @@ void Application::Update(sf::Time in_Time)
 				pos.x = (nearestX->GetPos().x + nearestX->GetSize().x / 2) + m_Objects[i]->GetSize().x / 2;
 			else
 				pos.x = (nearestX->GetPos().x - nearestX->GetSize().x / 2) - m_Objects[i]->GetSize().x / 2;
+
+			m_Objects[i]->SetVelocity(sf::Vector2f(0, m_Objects[i]->GetVelocity().y));
 		}
 
 		Object *nearestY = getNearestIntersectY(m_Objects[i], in_Time);
@@ -106,6 +114,8 @@ void Application::Update(sf::Time in_Time)
 				pos.y = (nearestY->GetPos().y + nearestY->GetSize().y / 2) + m_Objects[i]->GetSize().y / 2;
 			else
 				pos.y = (nearestY->GetPos().y - nearestY->GetSize().y / 2) - m_Objects[i]->GetSize().y / 2;
+			
+			m_Objects[i]->SetVelocity(sf::Vector2f(m_Objects[i]->GetVelocity().x, 0));
 		}
 
 		// Вызов события столкновения
@@ -146,6 +156,9 @@ void Application::HandleEvents()
 
 Object *Application::getNearestIntersectX(Object *in_Object, sf::Time in_Time)
 {
+	if (in_Object->GetVelocity().x == 0)
+		return NULL;
+
 	Object *nearest = NULL;
 	for (int i = 0; i < m_ObjectsCount; ++i)
 	{
@@ -161,6 +174,9 @@ Object *Application::getNearestIntersectX(Object *in_Object, sf::Time in_Time)
 
 Object *Application::getNearestIntersectY(Object *in_Object, sf::Time in_Time)
 {
+	if (in_Object->GetVelocity().y == 0)
+		return NULL;
+
 	Object *nearest = NULL;
 	for (int i = 0; i < m_ObjectsCount; ++i)
 	{
@@ -201,4 +217,14 @@ void Application::RemoveObject(Object *in_Object)
 	delete m_Objects[objectNum];
 	m_Objects[objectNum] = m_Objects[m_ObjectsCount - 1];
 	m_ObjectsCount -= 1;
+}
+
+int Application::GetObjectsCount()
+{
+	return m_ObjectsCount;
+}
+
+Object* Application::GetObject(int in_Num)
+{
+	return m_Objects[in_Num];
 }

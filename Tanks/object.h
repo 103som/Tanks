@@ -2,10 +2,14 @@
 #include "SFML/Graphics.hpp"
 #include <cmath>
 
+const int GROUP_NONE = 0;
+const int GROUP_PLAYER = 1;
+const int GROUP_COMPUTER = 3;
+
 class Object
 {
 public:
-	Object();
+	Object(const int in_Group = GROUP_NONE);
 	~Object();
 
 public:
@@ -34,6 +38,8 @@ public:
 	void SetHealth(int in_Health);
 	int GetHealth();
 
+	int GetGroup();
+
 private:
 	sf::Vector2f m_Pos; // Текущая позиция
 	sf::Vector2f m_Size; // Размер
@@ -44,4 +50,5 @@ private:
 	sf::Texture m_Texture;
 
 	int m_Health;
+	int m_Group;
 };

@@ -1,4 +1,1 @@
-﻿  tank.cpp
-c:\c++\tanks\tanks\tank.cpp(20): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\c++\tanks\tanks\tank.cpp(20): warning C4244: 'initializing': conversion from 'float' to 'const int', possible loss of data
-  Tanks.vcxproj -> C:\C++\Tanks\x64\Debug\Tanks.exe
+﻿  Tanks.vcxproj -> C:\C++\Tanks\x64\Debug\Tanks.exe

@@ -5,7 +5,7 @@
 class Tank : public Object
 {
 public:
-	Tank();
+	Tank(const int in_Group = GROUP_COMPUTER);
 	~Tank();
 
 public:

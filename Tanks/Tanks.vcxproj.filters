@@ -36,6 +36,9 @@
     <ClCompile Include="missile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="artificial_Intelligence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="object.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="missile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="artificial_Intelligence.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

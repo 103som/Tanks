@@ -4,7 +4,7 @@
 class Missile : public Object
 {
 public:
-	Missile();
+	Missile(const int in_Group);
 	~Missile();
 
 public:

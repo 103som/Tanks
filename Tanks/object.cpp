@@ -2,7 +2,7 @@
 
 
 
-Object::Object() : m_Direction(sf::Vector2f(1, 0)), m_Health(1)
+Object::Object(const int in_Group) : m_Direction(sf::Vector2f(1, 0)), m_Health(1), m_Group(in_Group)
 {
 }
 
@@ -125,4 +125,9 @@ void Object::SetHealth(int in_Health)
 int Object::GetHealth()
 {
 	return m_Health;
+}
+
+int Object::GetGroup()
+{
+	return m_Group;
 }

@@ -2,7 +2,7 @@
 #include "SFML/Graphics.hpp"
 
 
-Tank::Tank()
+Tank::Tank(const int in_Group) : Object(in_Group)
 {
 	SetHealth(3);
 	SetTexture("Images/tank.png");
@@ -16,12 +16,12 @@ Tank::~Tank()
 
 Missile* Tank::Fire()
 {
-	Missile *missile = new Missile;
+	Missile *missile = new Missile(this->GetGroup());
 	const int size = missile->GetSize().x / 2;
 
 	missile->SetPos(sf::Vector2f(GetPos().x + GetSize().x / 2 * GetDirection().x + GetDirection().x * size, GetPos().y + GetSize().y / 2 * GetDirection().y + GetDirection().y * size));
 
-	missile->SetVelocity(this->GetDirection());
+	missile->SetVelocity(sf::Vector2f(this->GetDirection().x * 3, this->GetDirection().y * 3));
 
 	return missile;
 }
