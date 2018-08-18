@@ -1,8 +1,8 @@
 #pragma once
-#include "application.h"
+#include "game-window.h"
 #include "tank.h"
 
-class Application;
+class GameWindow;
 class ArtificialIntelligence
 {
 public:
@@ -10,7 +10,7 @@ public:
 	~ArtificialIntelligence();
 
 public:
-	void Update(Application *in_App);
+	void Update(GameWindow *in_GameWindow);
 	void GenerateVelocity(Object* in_Object);
 };
 

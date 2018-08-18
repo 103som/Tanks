@@ -1,8 +1,8 @@
-#include "application.h"
+#include "game-window.h"
 
 int WinMain()
 {
-	Application app;
+	GameWindow app;
 	app.Execute();
 
 	return 0;

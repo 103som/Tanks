@@ -1,10 +1,10 @@
-#include "application.h"
+#include "game-window.h"
 #include "SFML/System/Clock.hpp"
 #include "tank.h"
 #include "wall.h"
 #include "missile.h"
 
-Application::Application() : m_ObjectsCount(0)
+GameWindow::GameWindow() : m_ObjectsCount(0)
 {
 	m_Width = 1920;
 	m_Height = 1080;
@@ -13,11 +13,11 @@ Application::Application() : m_ObjectsCount(0)
 }
 
 
-Application::~Application()
+GameWindow::~GameWindow()
 {
 }
 
-void Application::Execute()
+void GameWindow::Execute()
 {
 	sf::Clock clock;
 	sf::Time lastTime = clock.getElapsedTime();
@@ -33,7 +33,7 @@ void Application::Execute()
 	}
 }
 
-bool Application::GenerateLevel()
+bool GameWindow::GenerateLevel()
 {
 	m_ArtificialIntelligence = new ArtificialIntelligence();
 
@@ -77,7 +77,7 @@ bool Application::GenerateLevel()
 	return true;
 }
 
-void Application::Update(sf::Time in_Time)
+void GameWindow::Update(sf::Time in_Time)
 {
 	// Удаление объектов (Кол-во жизней)
 	for (int i = 0; i < m_ObjectsCount; ++i)
@@ -129,7 +129,7 @@ void Application::Update(sf::Time in_Time)
 	}
 }
 
-void Application::Draw()
+void GameWindow::Draw()
 {
 	m_Window->clear();
 
@@ -139,7 +139,7 @@ void Application::Draw()
 	m_Window->display();
 }
 
-void Application::HandleEvents()
+void GameWindow::HandleEvents()
 {
 	sf::Event event;
 	while (m_Window->pollEvent(event))
@@ -154,7 +154,7 @@ void Application::HandleEvents()
 	}
 }
 
-Object *Application::getNearestIntersectX(Object *in_Object, sf::Time in_Time)
+Object *GameWindow::getNearestIntersectX(Object *in_Object, sf::Time in_Time)
 {
 	if (in_Object->GetVelocity().x == 0)
 		return NULL;
@@ -172,7 +172,7 @@ Object *Application::getNearestIntersectX(Object *in_Object, sf::Time in_Time)
 	return nearest;
 }
 
-Object *Application::getNearestIntersectY(Object *in_Object, sf::Time in_Time)
+Object *GameWindow::getNearestIntersectY(Object *in_Object, sf::Time in_Time)
 {
 	if (in_Object->GetVelocity().y == 0)
 		return NULL;
@@ -190,7 +190,7 @@ Object *Application::getNearestIntersectY(Object *in_Object, sf::Time in_Time)
 	return nearest;
 }
 
-void Application::AddObject(Object *in_Object)
+void GameWindow::AddObject(Object *in_Object)
 {
 	Object **tempObjects = m_Objects;
 
@@ -204,7 +204,7 @@ void Application::AddObject(Object *in_Object)
 	m_Objects[m_ObjectsCount - 1] = in_Object;
 }
 
-void Application::RemoveObject(Object *in_Object)
+void GameWindow::RemoveObject(Object *in_Object)
 {
 	int objectNum = -1;
 	for (int i = 0; i < m_ObjectsCount; ++i)
@@ -219,12 +219,13 @@ void Application::RemoveObject(Object *in_Object)
 	m_ObjectsCount -= 1;
 }
 
-int Application::GetObjectsCount()
+int GameWindow::GetObjectsCount()
 {
 	return m_ObjectsCount;
 }
 
-Object* Application::GetObject(int in_Num)
+Object* GameWindow::GetObject(int in_Num)
 {
 	return m_Objects[in_Num];
 }
+

@@ -11,11 +11,11 @@ ArtificialIntelligence::~ArtificialIntelligence()
 {
 }
 
-void ArtificialIntelligence::Update(Application *in_App)
+void ArtificialIntelligence::Update(GameWindow *in_GameWindow)
 {
-	for (int i = 0; i < in_App->GetObjectsCount(); ++i)
+	for (int i = 0; i < in_GameWindow->GetObjectsCount(); ++i)
 	{
-		Object *current = in_App->GetObject(i);
+		Object *current = in_GameWindow->GetObject(i);
 		if (current->GetGroup() != GROUP_COMPUTER)
 			continue;
 
@@ -28,7 +28,7 @@ void ArtificialIntelligence::Update(Application *in_App)
 		if (1 + rand() % 80 == 75)
 		{
 			Object *missile = dynamic_cast<Tank*>(current)->Fire();
-			in_App->AddObject(missile);
+			in_GameWindow->AddObject(missile);
 		}
 	}
 }

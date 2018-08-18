@@ -9,7 +9,7 @@ Player::~Player()
 {
 }
 
-void Player::OnKeyPressed(Application *in_Application, const sf::Event::KeyEvent &key)
+void Player::OnKeyPressed(GameWindow *in_GameWindow, const sf::Event::KeyEvent &key)
 {
 	switch (key.code)
 	{
@@ -30,7 +30,7 @@ void Player::OnKeyPressed(Application *in_Application, const sf::Event::KeyEvent
 			break;
 
 		case sf::Keyboard::Space:
-			in_Application->AddObject(m_Tank->Fire());
+			in_GameWindow->AddObject(m_Tank->Fire());
 			break;
 	}
 }

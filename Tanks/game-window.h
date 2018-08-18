@@ -7,11 +7,11 @@
 class Player;
 class ArtificialIntelligence;
 
-class Application
+class GameWindow
 {
 public:
-	Application();
-	~Application();
+	GameWindow();
+	~GameWindow();
 
 public:
 	void Execute();
